@@ -1,58 +1,42 @@
-import { Client } from "@notionhq/client";
 import { NextResponse } from "next/server";
-import RSS from "rss";
-
-const client = new Client({
-  auth: process.env.NOTION_TOKEN,
-});
+import fs from "fs";
+import path from "path";
 
 export async function GET() {
-  if (!process.env.NOTION_DATABASE_ID) {
-    return new NextResponse("Notion database ID is not set", { status: 500 });
-  }
+  try {
+    const filePath = path.join(process.cwd(), "public", "feed.xml");
 
-  if (!process.env.NOTION_TOKEN) {
-    return new NextResponse("Notion token is not set", { status: 500 });
-  }
+    // 检查文件是否存在
+    if (!fs.existsSync(filePath)) {
+      // 如果文件不存在，触发 build 接口
+      const buildResponse = await fetch(
+        `${process.env.N2R_SITE_URL || "http://localhost:3000"}/build`
+      );
 
-  if (!process.env.BASE_URL) {
-    return new NextResponse("Base URL is not set", { status: 500 });
-  }
+      if (!buildResponse.ok) {
+        return new NextResponse("Failed to generate RSS feed", { status: 500 });
+      }
 
-  const title = process.env.TITLE || "title";
-  const language = process.env.LANGUAGE || "zh-CN";
+      // 再次检查文件是否存在
+      if (!fs.existsSync(filePath)) {
+        return new NextResponse("RSS feed not found after generation", {
+          status: 404,
+        });
+      }
+    }
 
-  const response = await client.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID,
-  });
+    // 读取文件内容
+    const xml = fs.readFileSync(filePath, "utf-8");
 
-  // 创建 RSS feed
-  const feed = new RSS({
-    title,
-    language,
-    feed_url: `${process.env.BASE_URL}/rss`,
-    site_url: process.env.BASE_URL,
-    pubDate: new Date(),
-  });
-
-  response.results.forEach((page: any) => {
-    const title = page.properties["名称"].title[0]?.plain_text || "无标题";
-    const url = page.public_url;
-    const lastEditedTime = new Date(page.last_edited_time);
-
-    feed.item({
-      title: title,
-      description: "",
-      url: url,
-      date: lastEditedTime,
-      categories: page.properties["分类"]?.filter(Boolean),
+    // 返回文件内容
+    return new NextResponse(xml, {
+      headers: {
+        "Content-Type": "application/xml",
+        "Content-Disposition": 'attachment; filename="feed.xml"',
+      },
     });
-  });
-
-  // 设置响应头为 XML
-  return new NextResponse(feed.xml(), {
-    headers: {
-      "Content-Type": "application/xml",
-    },
-  });
+  } catch (error) {
+    console.error("Error reading RSS feed:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
 }
