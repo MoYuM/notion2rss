@@ -104,7 +104,7 @@ export default {
         description: env.N2R_DESCRIPTION,
         image_url: env.N2R_IMAGE_URL,
         language: env.N2R_LANGUAGE || "zh-CN",
-        feed_url: `${env.N2R_SITE_URL}/rss`,
+        feed_url: env.N2R_FEED_URL,
         site_url: env.N2R_SITE_URL,
         pubDate: new Date(),
       });
