@@ -1,15 +1,22 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "notion2rss-worker",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-05-21",
-  "observability": {
-    "enabled": true
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+# Notion2Rss
 
+notion2rss 借助 cloudflare workers 将 notion 的 database 转换为 rss 订阅源。
+
+## 使用方法
+
+1. 在 [Cloudflare Workers](https://workers.cloudflare.com/) 创建一个新的 KV 存储空间，命名为 `notion2rss`。
+
+2. clone 本项目
+
+```bash
+git clone https://github.com/MoYuM/notion2rss.git
+cd notion2rss
+```
+
+4. 在 `wrangler.jsonc` 中配置 KV 存储空间和其他 rss 配置
+
+```json
+{
   // 配置 KV 存储
   "kv_namespaces": [
     {
@@ -37,3 +44,15 @@
     "N2R_IMAGE_URL": "https://i.imgur.com/7WJRaSx.jpeg"
   }
 }
+```
+
+5. 部署 worker
+
+```base
+npx wrangler deploy
+```
+
+6. 去 dashboard 页面，点击 `Settings`，在 `Variables` 中添加以下 notion token：
+
+- 变量名为 N2R_NOTION_TOKEN
+- 重新部署
