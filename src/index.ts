@@ -12,6 +12,8 @@ interface Env {
   N2R_AUTHOR: string;
   N2R_LANGUAGE: string;
   N2R_FEED_URL: string;
+  N2R_DESCRIPTION: string;
+  N2R_IMAGE_URL: string;
 }
 
 const get = (obj: any, path: string, defaultValue = undefined) => {
@@ -99,6 +101,8 @@ export default {
       // 创建 RSS feed
       const feed = new RSS({
         title: env.N2R_TITLE,
+        description: env.N2R_DESCRIPTION,
+        image_url: env.N2R_IMAGE_URL,
         language: env.N2R_LANGUAGE || "zh-CN",
         feed_url: `${env.N2R_SITE_URL}/rss`,
         site_url: env.N2R_SITE_URL,
