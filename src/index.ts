@@ -93,6 +93,19 @@ export default {
       notionClient: client,
     });
 
+    n2m.setCustomTransformer("image", (node) => {
+      const url = get(node, "image.file.url");
+      const src =
+        'https://www.notion.so' +
+        '/image/' +
+        encodeURIComponent(url) +
+        '?table=block' +
+        '&id=' +
+        get(node, "id")
+
+      return `![${"image"}](${src})`;
+    });
+
     try {
       const response = await client.databases.query({
         database_id: env.N2R_NOTION_DATABASE_ID,
