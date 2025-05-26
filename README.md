@@ -15,7 +15,7 @@ cd notion2rss
 
 4. 在 `wrangler.jsonc` 中配置 KV 存储空间和其他 rss 配置
 
-```json
+```js
 {
   // 配置 KV 存储
   "kv_namespaces": [
