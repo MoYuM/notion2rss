@@ -34,7 +34,8 @@ notion2rss 借助 cloudflare workers 将 notion 的 database 转换为 rss 订�
 
 变量名称为 `N2R_NOTION_TOKEN`，类型选 `密钥`，最后点击部署，让变量生效
 
-![image](https://github.com/user-attachments/assets/5e811938-5927-4457-9b67-6020752d67c8)
+![image](https://github.com/user-attachments/assets/38c7ca79-8b47-4c18-b555-b9e36d888147)
+
 
 8. 完成！访问你的 worker 地址就可以看到 feed 的 xml了。第一次加载可能会有些缓慢，第二次就好了。
 
