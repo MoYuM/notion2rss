@@ -1,86 +1,123 @@
+以下是润色后的版本，语言更加清晰自然，结构也稍作优化以增强可读性和专业感：
+
+---
+
 # Notion2Rss
 
-notion2rss 借助 cloudflare workers 将 notion 的 database 转换为 rss 订阅源。
+**Notion2Rss** 是一个基于 Cloudflare Workers 的开源项目，能够将你的 Notion 数据库转换为可订阅的 RSS 源。
 
-## 使用方法
+---
 
-准备：
-- cloudflare 账户
-- GitHub 账户
-- cloudflare 连接到你的 github 账号上
+## 🚀 快速开始
 
-1. 新建一个 worker，新建方式选择「导入储存库」
+### 准备工作
 
-![image](https://github.com/user-attachments/assets/f9c0a82a-9576-47ae-8815-8f1a40bcbfc7)
+* 一个 Cloudflare 账户
+* 一个 GitHub 账户
+* 将 Cloudflare 连接至你的 GitHub 账号
 
-2. 选择「通过 Git URL 克隆公共存储库」
-   
-![image](https://github.com/user-attachments/assets/14e2fed8-cdad-497a-8128-3defc7e9c526)
+### 步骤一：创建 Worker
 
-3. 输入 `https://github.com/MoYuM/notion2rss`
+1. 登录 [Cloudflare Workers](https://workers.cloudflare.com/) 控制台，选择 **“导入存储库”** 创建新 Worker
+   ![image](https://github.com/user-attachments/assets/f9c0a82a-9576-47ae-8815-8f1a40bcbfc7)
 
-![image](https://github.com/user-attachments/assets/d674b15b-c754-4792-8afd-800f49eaaf34)
+2. 选择 **“通过 Git URL 克隆公共存储库”**
+   ![image](https://github.com/user-attachments/assets/14e2fed8-cdad-497a-8128-3defc7e9c526)
 
-4. 配置你的 worker，这里可以自定义 worker 和 kv 的名字，当然你也可以直接点下一步
+3. 输入仓库地址：
 
-![image](https://github.com/user-attachments/assets/dce4416b-8e79-4722-b7d0-83d3d19f5d4a)
+   ```
+   https://github.com/MoYuM/notion2rss
+   ```
 
-5. 等待创建和部署成功
+   ![image](https://github.com/user-attachments/assets/d674b15b-c754-4792-8afd-800f49eaaf34)
 
+4. 配置 Worker（可自定义名称和 KV 名称，也可以直接点击下一步）
+   ![image](https://github.com/user-attachments/assets/dce4416b-8e79-4722-b7d0-83d3d19f5d4a)
 
-7. 配置 notion token，进入刚刚创建好的 worker 的设置页面，添加一个变量
+5. 等待部署完成
 
-![image](https://github.com/user-attachments/assets/963c56ad-66aa-44bc-b9fa-cd3fc5c5d79e)
+---
 
-变量名称为 `N2R_NOTION_TOKEN`，类型选 `密钥`，最后点击部署，让变量生效
+### 步骤二：设置 Notion Token
 
-![image](https://github.com/user-attachments/assets/38c7ca79-8b47-4c18-b555-b9e36d888147)
+6. 进入刚刚创建的 Worker 设置页，添加变量：
+   名称为 `N2R_NOTION_TOKEN`，类型选择「密钥」
+   ![image](https://github.com/user-attachments/assets/963c56ad-66aa-44bc-b9fa-cd3fc5c5d79e)
 
+7. 保存后点击「部署」按钮以使变量生效
+   ![image](https://github.com/user-attachments/assets/38c7ca79-8b47-4c18-b555-b9e36d888147)
 
-8. 完成！访问你的 worker 地址就可以看到 feed 的 xml了。第一次加载可能会有些缓慢，第二次就好了。
+---
 
-## 配置 RSS
+### 步骤三：访问 RSS
 
-你可以使用环境变量配置你的 RSS，例如标题、icon、作者等等。方法为：进入 worker 的设置页面，点击变量的编辑按钮即可
+8. 访问你的 Worker 地址，即可看到生成的 RSS Feed（XML 格式）。
+   首次加载可能稍慢，之后会变快。
 
+---
+
+## ⚙️ RSS 配置
+
+你可以通过设置环境变量自定义 RSS 的信息，如标题、图标、作者等。
+
+进入 Worker 设置页面，点击「变量」部分进行编辑：
 ![image](https://github.com/user-attachments/assets/67b34950-3644-4f23-b680-9dc5d5778d66)
 
-具体配置如下：
-```js
+配置示例：
+
+```jsonc
 {
   "vars": {
-    // 你希望转换为 RSS 的 Notion 数据库 ID
+    // Notion 数据库 ID（你希望被转为 RSS 的数据库）
     "N2R_NOTION_DATABASE_ID": "1e6e29bd912180839a35d7dab1e45e66",
-    // 博客的地址
+
+    // 博客页面地址
     "N2R_SITE_URL": "https://moyum.notion.site/moyum-130e29bd912180f7bee6c01cc2b09017",
-    // rss feed 的地址
+
+    // RSS Feed 的访问地址
     "N2R_FEED_URL": "https://notion2rss-worker.moyum.workers.dev",
-    // 博客的名称
+
+    // 博客名称
     "N2R_TITLE": "moyum 的博客",
-    // 博客的语言
+
+    // 博客语言
     "N2R_LANGUAGE": "zh-CN",
-    // 博客的作者
+
+    // 作者名称
     "N2R_AUTHOR": "moyum",
-    // rss feed 的描述
+
+    // RSS Feed 描述
     "N2R_DESCRIPTION": "想做点有趣东西的程序员",
-    // rss feed 的图片
+
+    // RSS 图标地址
     "N2R_IMAGE_URL": "https://i.imgur.com/7WJRaSx.jpeg"
   }
 }
 ```
 
-## 开发
+---
 
-1. 配置 notion token
+## 🛠️ 本地开发
 
-项目根目录新建 `.dev.vars` 文件，里面写上你的 token 即可，这样在本地开发中也能读取到 token 了
+1. 在项目根目录创建 `.dev.vars` 文件，写入你的 Notion Token：
 
 ```
 N2R_NOTION_TOKEN="your notion token"
 ```
 
-2. 运行项目
+2. 安装依赖并运行项目：
+
 ```bash
-npm i
+npm install
 npm run dev
 ```
+
+---
+
+欢迎提出 Issue 和 PR，让这个项目变得更好！🎉
+GitHub 仓库：[MoYuM/notion2rss](https://github.com/MoYuM/notion2rss)
+
+---
+
+如果你需要英文版或者希望我帮你生成英文版 README，也可以告诉我～
