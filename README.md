@@ -108,4 +108,3 @@ npm run dev
 ```
 
 Feel free to open issues or submit pull requests to improve this project! 🎉
-GitHub repo: [MoYuM/notion2rss](https://github.com/MoYuM/notion2rss)
