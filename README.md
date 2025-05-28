@@ -2,7 +2,7 @@
 
 🌐 [English](README.md) | [简体中文](README-zh.md)
 
-**Notion2Rss** is an open-source project that converts your Notion database into an RSS feed using **Cloudflare Workers**.
+Notion2Rss converts your Notion database into a subscribable RSS feed using Cloudflare Workers.
 
 ## 🚀 Getting Started
 
