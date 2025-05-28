@@ -1,7 +1,8 @@
 # Notion2Rss
 
-**Notion2Rss** 是一个基于 Cloudflare Workers 的开源项目，能够将你的 Notion 数据库转换为可订阅的 RSS 源。
+🌐 [English](README-en.md) | [简体中文](README.md)
 
+**Notion2Rss** 是一个基于 Cloudflare Workers 的开源项目，能够将你的 Notion 数据库转换为可订阅的 RSS 源。
 
 ## 🚀 快速开始
 
