@@ -36,8 +36,6 @@
 
 8. 等待部署完成
 
----
-
 ### 步骤二：设置 Notion Token
 
 6. 进入刚刚创建的 Worker 设置页，添加变量：
@@ -96,8 +94,6 @@
 }
 ```
 
----
-
 ## 🛠️ 本地开发
 
 1. 在项目根目录创建 `.dev.vars` 文件，写入你的 Notion Token：
@@ -113,7 +109,4 @@ npm install
 npm run dev
 ```
 
----
-
 欢迎提出 Issue 和 PR！🎉
-
